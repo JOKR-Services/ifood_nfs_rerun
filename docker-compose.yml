@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:4.4.6
+    container_name: ifood_nfs_mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ifood_nfs
+      MONGO_INITDB_ROOT_PASSWORD: ifood_nfs
+    restart: always
+    volumes:
+      - ./.mongo-data:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - ifood_nfs_network
+
+networks:
+  slot_network:
