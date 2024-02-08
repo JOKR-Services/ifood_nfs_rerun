@@ -21,8 +21,9 @@ type Ifood struct {
 }
 
 type Storage struct {
-	MongoUri string
-	DbName   string
+	MongoUri     string
+	MongoTimeout int
+	DbName       string
 }
 
 func Get() *Environment {
@@ -46,8 +47,9 @@ func Get() *Environment {
 	}
 
 	env.Storage = Storage{
-		MongoUri: util.GetenvStr("MONGO_URI", "mongodb://localhost:27017"),
-		DbName:   util.GetenvStr("MONGO_DB_NAME", "ifood_nfs_rerun"),
+		MongoUri:     util.GetenvStr("MONGO_URI", "mongodb://localhost:27017"),
+		MongoTimeout: util.GetenvInt("MONGO_TIMEOUT", 10),
+		DbName:       util.GetenvStr("MONGO_DB_NAME", "ifood_nfs_rerun"),
 	}
 
 	Env = &env

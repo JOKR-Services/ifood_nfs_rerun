@@ -4,6 +4,10 @@ import (
 	"github.com/JOKR-Services/ifood_nfs_rerun/internal/web"
 )
 
+type Adapter interface {
+	GetOrderDetails(orderID string) (*OrderDetails, error)
+}
+
 type adapter struct {
 	httpClient   web.Client
 	URL          string
