@@ -5,8 +5,8 @@ import (
 	"os"
 )
 
-func NewCSVReader(name string) ([]Order, error) {
-	file, err := os.Open(name)
+func (r *reader) ReadFromCSV() ([]Order, error) {
+	file, err := os.Open(r.csvName)
 	if err != nil {
 		return nil, err
 	}

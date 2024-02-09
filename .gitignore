@@ -1,3 +1,4 @@
 /.mongo-data
 /vendor
+/input
 .env

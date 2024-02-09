@@ -9,12 +9,12 @@ const authPath = "/oauth/token"
 
 func (a *adapter) Auth() (*AuthResponse, error) {
 	request := AuthRequest{
-		ClientID:     a.ClientID,
-		ClientSecret: a.ClientSecret,
+		ClientID:     a.clientID,
+		ClientSecret: a.clientSecret,
 	}
 
 	options := web.HttpRequestOptions{
-		URL:        a.URL + authPath,
+		URL:        a.url + authPath,
 		HttpMethod: web.MethodPost,
 	}
 
@@ -24,7 +24,7 @@ func (a *adapter) Auth() (*AuthResponse, error) {
 		logr.LogError("ifood auth request error", err, logr.KindInfra, logr.Params{})
 		return nil, err
 	}
-	a.BearerToken = response.AccessToken
+	a.bearerToken = response.AccessToken
 
 	return &response, nil
 }

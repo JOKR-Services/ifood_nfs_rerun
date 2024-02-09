@@ -1,23 +1,30 @@
 package orders
 
 type Order struct {
-	StoreId            int         `bson:"idLoja"`
-	CustomerId         int         `bson:"idCliente"`
-	Customer           Customer    `bson:"cliente" `
-	OrderId            string      `bson:"idPedido"`
-	OrderCode          string      `bson:"codigo"`
-	CreatedAt          string      `bson:"dataHora"`
-	DeliveryAddress    Address     `bson:"enderecoEntrega"`
-	DeliveryFee        float32     `bson:"valorEntrega"`
-	TotalPrice         float32     `bson:"valorTotal"`
-	DiscountValue      float32     `bson:"valorDesconto"`
-	DocumentForTax     bool        `bson:"cpfNaNota"`
-	LineItems          []LineItems `bson:"items"`
-	ScheduledBeginDate *string     `bson:"agendamentoDataInicio"`
-	ScheduledEndDate   *string     `bson:"agendamentoDataFim"`
-	ScheduledBeginTime *string     `bson:"agendamentoHoraInicio"`
-	ScheduledEndTime   *string     `bson:"agendamentoHoraFim"`
-	Benefits           []Benefits  `bson:"beneficios"`
+	StoreId            int        `bson:"idLoja"`
+	CustomerId         int        `bson:"idCliente"`
+	Customer           Customer   `bson:"cliente" `
+	OrderId            string     `bson:"idPedido"`
+	OrderCode          string     `bson:"codigo"`
+	CreatedAt          string     `bson:"dataHora"`
+	DeliveryAddress    Address    `bson:"enderecoEntrega"`
+	DeliveryFee        float32    `bson:"valorEntrega"`
+	TotalPrice         float32    `bson:"valorTotal"`
+	DiscountValue      float32    `bson:"valorDesconto"`
+	DocumentForTax     bool       `bson:"cpfNaNota"`
+	LineItems          []LineItem `bson:"items"`
+	ScheduledBeginDate *string    `bson:"agendamentoDataInicio"`
+	ScheduledEndDate   *string    `bson:"agendamentoDataFim"`
+	ScheduledBeginTime *string    `bson:"agendamentoHoraInicio"`
+	ScheduledEndTime   *string    `bson:"agendamentoHoraFim"`
+	Benefits           []Benefits `bson:"beneficios"`
+	Invoice            Invoice    `bson:"notaFiscal"`
+}
+
+type Invoice struct {
+	Error     bool   `bson:"erro"`
+	AccessKey string `bson:"accessKey"`
+	CreatedAt string `bson:"createdAt"`
 }
 
 type Customer struct {
@@ -43,7 +50,7 @@ type Address struct {
 	Longitude     float64 `bson:"longitude"`
 }
 
-type LineItems struct {
+type LineItem struct {
 	Id           *int     `bson:"id"`
 	Name         *string  `bson:"produto"`
 	BarCode      *string  `bson:"codigoBarra"`

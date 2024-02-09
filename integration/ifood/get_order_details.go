@@ -13,9 +13,9 @@ func (a *adapter) GetOrderDetails(orderCode string) (*OrderDetails, error) {
 	}
 
 	options := web.HttpRequestOptions{
-		URL:        a.URL + fmt.Sprintf("/pedido/%s", orderCode),
+		URL:        a.url + fmt.Sprintf("/pedido/%s", orderCode),
 		HttpMethod: web.MethodGet,
-		CustomAuth: &map[string]string{web.AUTH_HEADER: "Bearer " + a.BearerToken},
+		CustomAuth: &map[string]string{web.AUTH_HEADER: "Bearer " + a.bearerToken},
 	}
 
 	var response *OrderDetails

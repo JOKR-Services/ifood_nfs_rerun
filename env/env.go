@@ -12,6 +12,7 @@ type Environment struct {
 	Env string
 	Ifood
 	Storage
+	GraphQl
 }
 
 type Ifood struct {
@@ -22,8 +23,13 @@ type Ifood struct {
 
 type Storage struct {
 	MongoUri     string
-	MongoTimeout int
+	MongoTimeout int64
 	DbName       string
+}
+
+type GraphQl struct {
+	URL    string
+	APIKey string
 }
 
 func Get() *Environment {
@@ -47,9 +53,13 @@ func Get() *Environment {
 	}
 
 	env.Storage = Storage{
-		MongoUri:     util.GetenvStr("MONGO_URI", "mongodb://localhost:27017"),
-		MongoTimeout: util.GetenvInt("MONGO_TIMEOUT", 10),
-		DbName:       util.GetenvStr("MONGO_DB_NAME", "ifood_nfs_rerun"),
+		MongoUri: util.GetenvStr("MONGO_URI", ""),
+		DbName:   util.GetenvStr("MONGO_DB_NAME", "ifood_nfs_rerun"),
+	}
+
+	env.GraphQl = GraphQl{
+		URL:    util.GetenvStr("GRAPHQL_URL", ""),
+		APIKey: util.GetenvStr("GRAPHQL_API_KEY", ""),
 	}
 
 	Env = &env

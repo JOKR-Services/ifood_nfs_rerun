@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type mongoClient struct {
@@ -20,7 +21,8 @@ func (mc *mongoClient) Connect() (*mongo.Client, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), mc.timeout*time.Second)
 	defer cancel()
 
-	client, err := mongo.Connect(ctx)
+	opts := options.Client().ApplyURI(mc.mongoUri)
+	client, err := mongo.Connect(ctx, opts)
 	if err != nil {
 		return nil, err
 	}

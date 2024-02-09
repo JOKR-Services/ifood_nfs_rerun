@@ -7,7 +7,8 @@ import (
 )
 
 type OrderService interface {
-	Save(orders []Order) error
+	Save(ctx context.Context, order Order) error
+	GetOrders(ctx context.Context) ([]Order, error)
 }
 
 type orderService struct {
@@ -25,11 +26,26 @@ func NewOrderService(client *mongo.Client, db, coll string) *orderService {
 	}
 }
 
-func (o *orderService) Save(orders []Order) error {
-	_, err := o.coll.InsertMany(context.Background(), []interface{}{orders})
+func (o *orderService) Save(ctx context.Context, order Order) error {
+	_, err := o.coll.InsertOne(ctx, order)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func (o *orderService) GetOrders(ctx context.Context) ([]Order, error) {
+	var orders []Order
+	cursor, err := o.coll.Find(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	err = cursor.All(ctx, &orders)
+	if err != nil {
+		return nil, err
+	}
+
+	return orders, nil
 }

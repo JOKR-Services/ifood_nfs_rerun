@@ -16,4 +16,4 @@ services:
       - ifood_nfs_network
 
 networks:
-  slot_network:
+  ifood_nfs_network:

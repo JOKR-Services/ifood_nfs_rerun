@@ -6,6 +6,7 @@ require (
 	github.com/JOKR-Services/goutil v1.17.1
 	github.com/JOKR-Services/logr-go v0.1.0
 	github.com/joho/godotenv v1.5.1
+	github.com/machinebox/graphql v0.2.2
 	go.mongodb.org/mongo-driver v1.7.5
 	golang.org/x/exp v0.0.0-20240119083558-1b970713d09a
 )
@@ -39,6 +40,7 @@ require (
 	github.com/klauspost/compress v1.16.3 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.4 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect
+	github.com/matryer/is v1.4.1 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
