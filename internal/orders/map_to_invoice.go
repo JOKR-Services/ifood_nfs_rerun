@@ -1,13 +1,21 @@
 package orders
 
-import "github.com/JOKR-Services/ifood_nfs_rerun/internal/graph"
+import (
+	"fmt"
 
-func MapToInvoice(order Order) graph.OrderData {
+	"github.com/JOKR-Services/ifood_nfs_rerun/internal/graph"
+)
+
+// This const will be appended at the end of the order id,
+// this should bypass duplicated invoices checks.
+const appendAfterOrderId string = "X"
+
+func MapToInvoice(order Order, mappedHubs map[string]string) graph.OrderData {
 	return graph.OrderData{
-		OrderId:              order.OrderId,
+		OrderId:              order.OrderId + appendAfterOrderId,
 		CustomerFederalTaxId: *order.Customer.CpfDocument,
 		DeliveryFee:          float64(order.DeliveryFee),
-		HubId:                "",
+		HubId:                mappedHubs[fmt.Sprintf("%d", order.StoreId)],
 		IsInvoiceRerun:       false,
 		LineItems:            mapInvoiceLineItems(order.LineItems),
 		ShippingAddress:      mapShippingAddress(order.Customer.Name, order.DeliveryAddress),

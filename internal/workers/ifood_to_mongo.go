@@ -7,11 +7,22 @@ import (
 	"golang.org/x/time/rate"
 )
 
+type Order struct {
+	OrderId         string
+	ExternalOrderId string
+}
+
 func (w *worker) IfoodOrdersToMongo() error {
-	csvOrders, err := w.reader.ReadFromCSV()
-	if err != nil {
-		return err
+	csvOrders := []Order{
+		{
+			OrderId:         "2b60907e-8402-4520-857e-f628e570f21b",
+			ExternalOrderId: "43074-F112949122",
+		},
 	}
+
+	// if err != nil {
+	// 	return err
+	// }
 
 	rate := rate.NewLimiter(10, 1)
 	for _, order := range csvOrders {

@@ -3,6 +3,7 @@ package orders
 import (
 	"context"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -12,7 +13,6 @@ type OrderService interface {
 }
 
 type orderService struct {
-	db   *mongo.Database
 	coll *mongo.Collection
 }
 
@@ -21,7 +21,6 @@ func NewOrderService(client *mongo.Client, db, coll string) *orderService {
 	collection := database.Collection(coll)
 
 	return &orderService{
-		db:   database,
 		coll: collection,
 	}
 }
@@ -37,10 +36,11 @@ func (o *orderService) Save(ctx context.Context, order Order) error {
 
 func (o *orderService) GetOrders(ctx context.Context) ([]Order, error) {
 	var orders []Order
-	cursor, err := o.coll.Find(ctx, nil)
+	cursor, err := o.coll.Find(ctx, bson.D{})
 	if err != nil {
 		return nil, err
 	}
+	defer cursor.Close(ctx)
 
 	err = cursor.All(ctx, &orders)
 	if err != nil {

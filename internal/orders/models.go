@@ -3,7 +3,7 @@ package orders
 type Order struct {
 	StoreId            int        `bson:"idLoja"`
 	CustomerId         int        `bson:"idCliente"`
-	Customer           Customer   `bson:"cliente" `
+	Customer           Customer   `bson:"cliente"`
 	OrderId            string     `bson:"idPedido"`
 	OrderCode          string     `bson:"codigo"`
 	CreatedAt          string     `bson:"dataHora"`
@@ -22,7 +22,7 @@ type Order struct {
 }
 
 type Invoice struct {
-	Error     bool   `bson:"erro"`
+	Error     bool   `bson:"error"`
 	AccessKey string `bson:"accessKey"`
 	CreatedAt string `bson:"createdAt"`
 }

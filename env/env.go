@@ -25,6 +25,10 @@ type Storage struct {
 	MongoUri     string
 	MongoTimeout int64
 	DbName       string
+
+	TwoPlMongoUri     string
+	TwoPlMongoTimeout int64
+	TwoPlDbName       string
 }
 
 type GraphQl struct {
@@ -53,8 +57,10 @@ func Get() *Environment {
 	}
 
 	env.Storage = Storage{
-		MongoUri: util.GetenvStr("MONGO_URI", ""),
-		DbName:   util.GetenvStr("MONGO_DB_NAME", "ifood_nfs_rerun"),
+		MongoUri:      util.GetenvStr("MONGO_URI", ""),
+		DbName:        util.GetenvStr("MONGO_DB_NAME", "ifood_nfs_rerun"),
+		TwoPlMongoUri: util.GetenvStr("MONGO_2PL_URI", ""),
+		TwoPlDbName:   util.GetenvStr("TWOPL_MONGO_DB_NAME", "two-pl_production"),
 	}
 
 	env.GraphQl = GraphQl{

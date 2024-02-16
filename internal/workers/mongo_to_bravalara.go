@@ -13,10 +13,22 @@ func (w *worker) MongoToBravalara() error {
 		return err
 	}
 
+	//
+	// Gerar produto fake 1 cent + deliveryFee
+	//
+
+	hubs, err := w.hubService.GetHubs(context.Background())
+	if err != nil {
+		return err
+	}
+
 	for _, order := range dbOrders {
-		if _, err := w.graphQlClient.GetInvoice(orders.MapToInvoice(order)); err != nil {
-			return err
-		}
+		fmt.Println(orders.MapToInvoice(order, hubs))
+
+		// if _, err := w.graphQlClient.GetInvoice(orders.MapToInvoice(order)); err != nil {
+		// 	return err
+		// }
+
 		fmt.Println("Invoice request for order", order.OrderId, "sent")
 	}
 
