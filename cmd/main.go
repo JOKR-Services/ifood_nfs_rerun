@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 
+	"github.com/JOKR-Services/logr-go"
+	"go.mongodb.org/mongo-driver/mongo"
+
 	"github.com/JOKR-Services/ifood_nfs_rerun/env"
 	"github.com/JOKR-Services/ifood_nfs_rerun/integration/ifood"
 	"github.com/JOKR-Services/ifood_nfs_rerun/internal/db"
@@ -11,8 +14,6 @@ import (
 	"github.com/JOKR-Services/ifood_nfs_rerun/internal/orders"
 	"github.com/JOKR-Services/ifood_nfs_rerun/internal/reader"
 	"github.com/JOKR-Services/ifood_nfs_rerun/internal/workers"
-	"github.com/JOKR-Services/logr-go"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 var (
@@ -42,7 +43,7 @@ func main() {
 		orders.NewOrderService(mongoClient, envs.Storage.DbName, "orders"),
 		hub.NewHubService(twoplMongoClient, envs.TwoPlDbName, "ifood_stores"),
 		graph.NewGraphQlClient(envs.GraphQl.URL, envs.GraphQl.APIKey),
-		reader.NewReader("input/Ifood-orders-zero-deliveryfee.csv"),
+		reader.NewReader("input/nf_sem_delivery_fee.csv"),
 	)
 
 	conns := []*mongo.Client{mongoClient, twoplMongoClient}
@@ -57,7 +58,7 @@ func main() {
 		}(conn)
 	}
 
-	err = worker.MongoToBravalara()
+	err = worker.IfoodOrdersToMongo()
 	if err != nil {
 		logr.LogPanic("error processing ifood orders to mongo", err, logr.KindDomain, nil)
 	}

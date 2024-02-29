@@ -67,7 +67,7 @@ func NewWebClient() *client {
 
 func defaultClient() *http.Client {
 	return &http.Client{
-		Timeout: time.Second * 10,
+		Timeout: time.Second * 60,
 	}
 }
 
@@ -108,7 +108,6 @@ func parseResponse(response []byte, responsePointer interface{}) error {
 
 func (c *client) Do(options HttpRequestOptions, requestObject interface{}, responsePointer interface{}) error {
 	filteredOptions := filterHeaders(options)
-	logr.LogInfo("http request started", logr.Params{"options": filteredOptions, "request": requestObject})
 	buff := encodeRequest(requestObject)
 
 	if buff == nil {
@@ -154,7 +153,6 @@ func (c *client) Do(options HttpRequestOptions, requestObject interface{}, respo
 			return err
 		}
 
-		logr.LogInfo("http request finished", logr.Params{"options": filteredOptions, "request": requestObject, "response": responsePointer})
 		return nil
 	}
 

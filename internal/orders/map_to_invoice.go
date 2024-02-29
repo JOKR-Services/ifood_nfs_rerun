@@ -6,9 +6,12 @@ import (
 	"github.com/JOKR-Services/ifood_nfs_rerun/internal/graph"
 )
 
-// This const will be appended at the end of the order id,
-// this should bypass duplicated invoices checks.
+// Esta constante é utilizada para adicionar um sufixo ao OrderId,
+// dessa forma daremos um bypass no controle de duplicidade de invoices.
 const appendAfterOrderId string = "X"
+
+// Este produto será usado para adicionar um valor de 0.02 centavos ao pedido
+const sampleProductSku string = "15000005677_sample"
 
 func MapToInvoice(order Order, mappedHubs map[string]string) graph.OrderData {
 	return graph.OrderData{
@@ -19,6 +22,25 @@ func MapToInvoice(order Order, mappedHubs map[string]string) graph.OrderData {
 		IsInvoiceRerun:       false,
 		LineItems:            mapInvoiceLineItems(order.LineItems),
 		ShippingAddress:      mapShippingAddress(order.Customer.Name, order.DeliveryAddress),
+	}
+}
+
+// Se adicionarmos um produto com o valor de 0.01 centavos,
+// o valor do frete não é adicionado, então devemos ter um produto com um total de 0.02 centavos,
+// e em seguida retirar 0.01 centavos do frete.
+func sampleLineItem() []graph.LineItem {
+	return []graph.LineItem{
+		{
+			TotalDiscount:     0,
+			Sku:               sampleProductSku,
+			Quantity:          1,
+			Origin:            "CART",
+			Name:              "Frete",
+			LineNumber:        0,
+			UnitPrice:         0.02,
+			TotalUnitDiscount: 0,
+			TotalPrice:        0.02,
+		},
 	}
 }
 

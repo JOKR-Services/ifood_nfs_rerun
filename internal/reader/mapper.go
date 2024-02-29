@@ -7,8 +7,8 @@ type Order struct {
 
 func mapToOrder(data [][]string) []Order {
 	const (
-		orderIdIndex         = 0
-		externalOrderIdIndex = 1
+		orderIdIndex         = 1
+		externalOrderIdIndex = 2
 	)
 
 	var orders []Order

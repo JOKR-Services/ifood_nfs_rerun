@@ -13,6 +13,7 @@ func (r *reader) ReadFromCSV() ([]Order, error) {
 	defer file.Close()
 
 	csv := csv.NewReader(file)
+	csv.Comma = ';'
 	data, err := csv.ReadAll()
 	if err != nil {
 		return nil, err

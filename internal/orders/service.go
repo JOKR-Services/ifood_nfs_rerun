@@ -2,6 +2,7 @@ package orders
 
 import (
 	"context"
+	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -26,7 +27,18 @@ func NewOrderService(client *mongo.Client, db, coll string) *orderService {
 }
 
 func (o *orderService) Save(ctx context.Context, order Order) error {
-	_, err := o.coll.InsertOne(ctx, order)
+	count, err := o.coll.CountDocuments(ctx, bson.M{"codigo": order.OrderCode})
+
+	if err != nil {
+		return err
+	}
+
+	if count > 0 {
+		fmt.Println(".")
+		return nil
+	}
+
+	_, err = o.coll.InsertOne(ctx, order)
 	if err != nil {
 		return err
 	}

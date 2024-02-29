@@ -9,6 +9,7 @@ require (
 	github.com/machinebox/graphql v0.2.2
 	go.mongodb.org/mongo-driver v1.7.5
 	golang.org/x/exp v0.0.0-20240119083558-1b970713d09a
+	golang.org/x/time v0.3.0
 )
 
 require (
@@ -69,7 +70,6 @@ require (
 	golang.org/x/sync v0.6.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.17.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
