@@ -15,26 +15,22 @@ type Order struct {
 
 func (w *worker) IfoodOrdersToMongo() error {
 	ifoodOrders, err := w.orderService.GetOrders(context.Background())
-
 	if err != nil {
 		return err
 	}
 
 	ordersCodes := make([]string, 0)
-
 	for _, ifoodOrder := range ifoodOrders {
 		ordersCodes = append(ordersCodes, ifoodOrder.OrderCode)
 	}
 
 	csvOrders, err := w.reader.ReadFromCSV()
-
 	if err != nil {
 		return err
 	}
 
 	rate := rate.NewLimiter(10, 1)
 	for _, order := range csvOrders {
-
 		if slices.Contains(ordersCodes, order.ExternalOrderId) {
 			continue
 		}
