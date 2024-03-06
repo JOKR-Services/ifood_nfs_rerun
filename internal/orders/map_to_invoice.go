@@ -13,8 +13,8 @@ const appendAfterOrderId string = "X"
 // Este produto será usado para adicionar um valor de 0.02 centavos ao pedido
 const sampleProductSku string = "15000005677_sample"
 
-func MapToInvoice(order Order, mappedHubs map[string]string) graph.OrderData {
-	return graph.OrderData{
+func MapToInvoice(deliveryFeeOnly bool, order Order, mappedHubs map[string]string) graph.OrderData {
+	orderData := graph.OrderData{
 		OrderId:              order.OrderId + appendAfterOrderId,
 		CustomerFederalTaxId: *order.Customer.CpfDocument,
 		DeliveryFee:          float64(order.DeliveryFee),
@@ -23,10 +23,18 @@ func MapToInvoice(order Order, mappedHubs map[string]string) graph.OrderData {
 		LineItems:            mapInvoiceLineItems(order.LineItems),
 		ShippingAddress:      mapShippingAddress(order.Customer.Name, order.DeliveryAddress),
 	}
+
+	// Remove 1 centavo do deliveryFee e adiciona um produto com valor de 0.02 centavos.
+	if deliveryFeeOnly {
+		orderData.DeliveryFee = float64(order.DeliveryFee - 0.01)
+		orderData.LineItems = sampleLineItem()
+	}
+
+	return orderData
 }
 
-// Se adicionarmos um produto com o valor de 0.01 centavos,
-// o valor do frete não é adicionado, então devemos ter um produto com um total de 0.02 centavos,
+// Se adicionarmos um produto com o valor de 0.01 centavos, o valor do frete não é adicionado,
+// então devemos ter um produto com um total de 0.02 centavos,
 // e em seguida retirar 0.01 centavos do frete.
 func sampleLineItem() []graph.LineItem {
 	return []graph.LineItem{
