@@ -2,7 +2,6 @@ package orders
 
 import (
 	"context"
-	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -34,7 +33,6 @@ func (o *orderService) Save(ctx context.Context, order Order) error {
 	}
 
 	if count > 0 {
-		fmt.Println(".")
 		return nil
 	}
 
